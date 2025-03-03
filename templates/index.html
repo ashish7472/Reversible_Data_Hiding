@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lossless Data Hiding</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>🔐 Lossless Data Hiding</h1>
+        <p>Embed and extract secret messages in images.</p>
+
+        <!-- Embed Section -->
+        <div class="section">
+            <h2>🖼 Embed Message</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <label>Upload Image:</label>
+                <input type="file" name="embed_image" accept="image/*" required>
+                
+                <label>Message:</label>
+                <input type="text" name="message" placeholder="Enter secret message" required>
+                
+                <button type="submit">🔏 Embed Message</button>
+            </form>
+
+            {% if embed_result %}
+                <div class="result">
+                    <p><strong>Peak Point:</strong> {{ embed_result.peak }}</p>
+                    <p><strong>Message Length:</strong> {{ embed_result.msg_length }} bits</p>
+                    <a href="/download/{{ embed_result.file }}" class="btn">📥 Download Embedded Image</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Extract Section -->
+        <div class="section">
+            <h2>🔍 Extract Message</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <label>Upload Embedded Image:</label>
+                <input type="file" name="extract_image" accept="image/*" required>
+                
+                <label>Peak Point:</label>
+                <input type="number" name="peak" placeholder="Enter peak value" required>
+                
+                <label>Message Length (bits):</label>
+                <input type="number" name="msg_length" placeholder="Enter length" required>
+                
+                <button type="submit">🔓 Extract Message</button>
+            </form>
+
+            {% if extract_result %}
+                <div class="result">
+                    <p><strong>Extracted Message:</strong> {{ extract_result.message }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>
